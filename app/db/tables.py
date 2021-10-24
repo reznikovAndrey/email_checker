@@ -5,7 +5,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    """User model.
+    """User table.
 
     OneToMany relation with `Game`.
     """
@@ -18,7 +18,7 @@ class User(Base):
 
 
 class Game(Base):
-    """Game model."""
+    """Game table."""
 
     __tablename__ = "games"
 
