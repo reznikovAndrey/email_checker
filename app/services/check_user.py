@@ -1,3 +1,4 @@
+from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
 from fastapi import Depends
 
@@ -21,7 +22,7 @@ class CheckUserService:
         self.esp_session = esp_session
         self.game_serivce = game_service
 
-    def check(self, email: str) -> CheckOutput:
+    def check(self, email: EmailStr) -> CheckOutput:
         """Check user`s email.
 
         Check that email with given email in db.
