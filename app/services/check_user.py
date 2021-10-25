@@ -1,11 +1,11 @@
+from fastapi import BackgroundTasks, Depends
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
-from fastapi import Depends, BackgroundTasks
 
+from ..db import tables
 from ..db.database import get_session
 from ..esp.esp import Esp, esp
 from ..models.check_user import CheckOutput
-from ..db import tables
 from ..services.games import GameService
 
 

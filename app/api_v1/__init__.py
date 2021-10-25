@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from . import users, games, check_user
+from . import check_user, games, users
 
 router = APIRouter()
 

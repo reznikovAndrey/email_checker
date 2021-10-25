@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, Depends, status
 from pydantic.networks import EmailStr
 
 from ..models.check_user import CheckOutput
