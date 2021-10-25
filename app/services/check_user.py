@@ -1,6 +1,6 @@
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
-from fastapi import Depends
+from fastapi import Depends, BackgroundTasks
 
 from ..db.database import get_session
 from ..esp.esp import Esp, esp
@@ -14,6 +14,7 @@ class CheckUserService:
 
     def __init__(
         self,
+        background_tasks: BackgroundTasks,
         db_session: Session = Depends(get_session),
         esp_session: Esp = Depends(),
         game_service: GameService = Depends(),
@@ -21,6 +22,7 @@ class CheckUserService:
         self.db_session = db_session
         self.esp_session = esp_session
         self.game_serivce = game_service
+        self.background_tasks = background_tasks
 
     def check(self, email: EmailStr) -> CheckOutput:
         """Check user`s email.
@@ -61,7 +63,7 @@ class CheckUserService:
             return CheckOutput(**data)
         in_esp: bool = esp.check_user_email(email)
         if not in_esp:
-            esp.add_user_email(email)
+            self.background_tasks.add_task(esp.add_user_email, email)
         new_user = tables.User(email=email)
         self.db_session.add(new_user)
         self.db_session.commit()
